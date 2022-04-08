@@ -1,2 +1,2 @@
 # smsVulnRange
-Student Management System Vulnerability Range
+Repaired version of teaching comprehensive information service platform
