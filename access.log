@@ -447,3 +447,39 @@ main_app.models.Admin.DoesNotExist: Admin matching query does not exist.
 2022-04-09 19:54:19,414-[view_student_leave:967]-CRITICAL-request_user:GuestAdmin
 2022-04-09 19:57:02,447-[admin_home:86]-CRITICAL-request_user:zhangxiyuan
 2022-04-09 19:57:03,920-[admin_view_profile:1042]-CRITICAL-request_user:zhangxiyuan
+2022-04-09 20:44:57,918-[admin_home:86]-CRITICAL-request_user:GuestAdmin
+2022-04-09 20:45:01,506-[admin_notify_student:1084]-CRITICAL-request_user:GuestAdmin
+2022-04-09 21:03:12,802-[admin_home:86]-CRITICAL-request_user:GuestAdmin
+2022-04-09 21:03:19,239-[admin_notify_staff:1073]-CRITICAL-request_user:GuestAdmin
+2022-04-09 21:03:21,046-[admin_notify_student:1084]-CRITICAL-request_user:GuestAdmin
+2022-04-09 21:05:20,316-[admin_notify_student:1084]-CRITICAL-request_user:GuestAdmin
+2022-04-09 21:05:30,955-[admin_notify_student:1084]-CRITICAL-request_user:GuestAdmin
+2022-04-09 21:05:36,147-[admin_notify_student:1084]-CRITICAL-request_user:GuestAdmin
+2022-04-09 21:05:36,945-[admin_notify_student:1084]-CRITICAL-request_user:GuestAdmin
+2022-04-09 21:05:52,524-[admin_notify_student:1084]-CRITICAL-request_user:GuestAdmin
+2022-04-09 21:05:55,470-[admin_notify_staff:1073]-CRITICAL-request_user:GuestAdmin
+2022-04-09 21:05:58,223-[admin_notify_student:1084]-CRITICAL-request_user:GuestAdmin
+2022-04-09 21:06:12,910-[admin_home:86]-CRITICAL-request_user:GuestAdmin
+2022-04-09 21:06:14,535-[admin_notify_staff:1073]-CRITICAL-request_user:GuestAdmin
+2022-04-09 21:06:30,556-[log_response:224]-WARNING-Not Found: /favicon.ico
+2022-04-09 21:06:30,557-[log_message:157]-WARNING-"GET /favicon.ico HTTP/1.1" 404 179
+2022-04-09 21:06:38,856-[log_response:224]-WARNING-Forbidden (CSRF token missing or incorrect.): /doLogin/
+2022-04-09 21:06:38,856-[log_message:157]-WARNING-"POST /doLogin/ HTTP/1.1" 403 1019
+2022-04-09 21:06:43,630-[admin_home:86]-CRITICAL-request_user:GuestAdmin
+2022-04-09 21:06:46,971-[admin_notify_staff:1073]-CRITICAL-request_user:GuestAdmin
+2022-04-09 21:06:48,925-[admin_notify_student:1084]-CRITICAL-request_user:GuestAdmin
+2022-04-09 21:06:53,882-[admin_home:86]-CRITICAL-request_user:GuestAdmin
+2022-04-09 21:07:08,622-[admin_notify_staff:1073]-CRITICAL-request_user:GuestAdmin
+2022-04-09 21:08:06,177-[admin_notify_staff:1073]-CRITICAL-request_user:GuestAdmin
+2022-04-09 21:08:09,840-[admin_notify_student:1084]-CRITICAL-request_user:GuestAdmin
+2022-04-09 21:08:12,054-[admin_notify_staff:1073]-CRITICAL-request_user:GuestAdmin
+2022-04-09 21:08:12,924-[admin_notify_student:1084]-CRITICAL-request_user:GuestAdmin
+2022-04-09 21:08:13,752-[admin_notify_staff:1073]-CRITICAL-request_user:GuestAdmin
+2022-04-09 21:08:14,947-[admin_notify_student:1084]-CRITICAL-request_user:GuestAdmin
+2022-04-09 21:08:33,694-[admin_notify_student:1084]-CRITICAL-request_user:GuestAdmin
+2022-04-09 21:08:35,448-[admin_notify_staff:1073]-CRITICAL-request_user:GuestAdmin
+2022-04-09 21:08:36,167-[admin_notify_student:1084]-CRITICAL-request_user:GuestAdmin
+2022-04-09 21:08:40,340-[admin_notify_student:1084]-CRITICAL-request_user:GuestAdmin
+2022-04-09 21:08:41,199-[admin_notify_student:1084]-CRITICAL-request_user:GuestAdmin
+2022-04-09 21:08:46,675-[admin_notify_student:1084]-CRITICAL-request_user:GuestAdmin
+2022-04-09 21:08:54,007-[admin_notify_student:1084]-CRITICAL-request_user:GuestAdmin
