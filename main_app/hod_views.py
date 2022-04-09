@@ -30,6 +30,34 @@ import logging
 
 from .pystrich.code128 import Code128Encoder
 
+import logging
+
+
+# 配置logging
+# logging.FileHandler(filename='access.log', encoding='utf-8')
+# logging.basicConfig(
+#     filename="access.log",
+#     filemode="w",
+#     encoding='utf-8',
+#     format="%(asctime)s-[%(funcName)s:%(lineno)d]-%(levelname)s-%(message)s",
+#     datefmt="%Y-%m-%d %H:%M:%S",
+#     level=logging.CRITICAL,
+# )
+class LogInfoFilter(logging.Filter):
+    def filter(self, record):
+        if record.funcName.find('log_message') == -1:
+            return True
+        return False
+
+
+logger = logging.getLogger()
+fh = logging.FileHandler("access.log", encoding="utf-8", mode="a")
+formatter = logging.Formatter("%(asctime)s-[%(funcName)s:%(lineno)d]-%(levelname)s-%(message)s")
+fh.setFormatter(formatter)
+logger.addHandler(fh)
+logger.setLevel(logging.CRITICAL)
+logger.addFilter(LogInfoFilter())
+
 
 def admin_home(request):
     total_staff = Staff.objects.all().count()
@@ -55,11 +83,13 @@ def admin_home(request):
         'attendance_list': attendance_list
 
     }
+    logger.critical("request_user:" + str(request.user))
     return render(request, 'hod_template/home_content.html', context)
 
 
 def convenient_calc(request):
     test = {'page_title': '便捷计算器'}
+    logger.critical("request_user:" + str(request.user))
     return render(request, 'hod_template/calculator.html', test)
 
 
@@ -78,25 +108,30 @@ def calculated(request):
     l = {'page_title': '便捷计算器'}
     print(result)
     l['res'] = result
+    logger.critical("request_user:" + str(request.user) + ", formula:" + str(formula) + ", result:" + str(result))
     return render(request, 'hod_template/calculator.html', l)
 
 
 def search(request):
     title = {'page_title': '数据查询'}
+    logger.critical("request_user:" + str(request.user))
     return render(request, 'hod_template/search.html', title)
 
 
 def searchResult(request):
     firstName = request.GET['f']
-    result = CustomUser.objects.filter(Q(first_name__contains=firstName) |
+    try:
+        result = CustomUser.objects.filter(Q(first_name__contains=firstName) |
                                        Q(last_name__contains=firstName) |
                                        Q(last_name__contains=firstName[0], first_name__contains=firstName[1:]))
-
+    except Exception as e:
+        messages.error(request, "搜索无效, " + str(e))
+        result = ''
     print(result)
     m = {'m': result,
-         'page_title': '数据查询'
-         }
+         'page_title': '数据查询'}
     print(m)
+    logger.critical("request_user:" + str(request.user) + ", f:" + str(firstName) + ", f:" + str(result))
     return render(request, 'hod_template/search.html', m)
 
 
@@ -111,6 +146,8 @@ def upload_and_show_group_photo(request):
             try:
                 form.save()
                 messages.success(request, "图片 " + str(form.cleaned_data.get('title')) + " 上传成功！")
+                logger.critical(
+                    "request_user:" + str(request.user) + ", imgTitle:" + str(form.cleaned_data.get('title')))
             except Exception as e:
                 messages.error(request, "图片上传失败, " + str(e))
         else:
@@ -122,6 +159,7 @@ def upload_and_show_group_photo(request):
     for u in all_img:
         print(u.groupImg.url)
         # print(u.)
+    logger.critical("request_user:" + str(request.user))
     return render(request, 'hod_template/group_photo.html', content)
 
 
@@ -145,6 +183,7 @@ def add_online_teaching_url(request):
                 messages.error(request, "链接添加失败, " + str(e))
         else:
             messages.error(request, "表单无效或错误")
+    logger.critical("request_user:" + str(request.user) + ", form:" + str(form))
     return render(request, 'hod_template/add_online_teaching_url.html', context)
 
 
@@ -154,6 +193,7 @@ def manage_online_teaching_url(request):
         'urls': all_urls,
         'page_title': '在线教学平台地址维护'
     }
+    logger.critical("request_user:" + str(request.user))
     return render(request, "hod_template/manage_online_teaching_url.html", context)
 
 
@@ -164,6 +204,7 @@ def delete_online_teaching_url(request, *args, **kwargs):
         messages.success(request, "删除成功！")
     except Exception as e:
         messages.error(request, "删除失败, " + str(e))
+    logger.critical("request_user:" + str(request.user))
     return redirect(reverse('manage_online_teaching_url'))
 
 
@@ -172,6 +213,7 @@ def stu_data_parser(request):
         'page_title': '学生XML数据解析',
         'filename': 'data.xml'
     }
+    logger.critical("request_user:" + str(request.user))
     return render(request, "hod_template/stu_data_parser.html", context)
 
 
@@ -223,6 +265,7 @@ def stu_data_parser_result(request):
             'is_parsed': 'yes'
         }
         messages.success(request, "学生XML数据已被成功解析！")
+        logger.critical("request_user:" + str(request.user)+', content:'+str(content))
         return render(request, "hod_template/stu_data_parser.html", context)
 
 
@@ -283,6 +326,7 @@ def serialize_stu_parser(request):
                 'serialization': serializedStu,
                 'warning': '✔ __reduce__() 函数未启用'
             }
+    logger.critical("request_user:" + str(request.user)+', form:'+str(form))
     return render(request, 'hod_template/serialized_data_parser.html', content)
 
 
@@ -293,6 +337,7 @@ def download(request, *args, **kwargs):
     response = FileResponse(file)
     response['Content-Type'] = 'application/octet-stream'  # 设置头信息，告诉浏览器这是个文件
     response['Content-Disposition'] = 'attachment;filename=' + '"' + downloadFile + '"'
+    logger.critical("request_user:" + str(request.user) + ', downloadFile:' + str(kwargs['filename']))
     return response
 
 
@@ -327,7 +372,7 @@ def add_staff(request):
                 messages.error(request, "Could Not Add " + str(e))
         else:
             messages.error(request, "Please fulfil all requirements")
-
+    logger.critical("request_user:" + str(request.user) + ', form:' + str(form))
     return render(request, 'hod_template/add_staff_template.html', context)
 
 
@@ -406,6 +451,7 @@ def add_student(request):
                 messages.error(request, "Could Not Add: " + str(e))
         else:
             messages.error(request, "Could Not Add: ")
+    logger.critical("request_user:" + str(request.user) + ', form:' + str(student_form))
     return render(request, 'hod_template/add_student_template.html', context)
 
 
@@ -428,6 +474,7 @@ def add_course(request):
                 messages.error(request, "Could Not Add")
         else:
             messages.error(request, "Could Not Add")
+    logger.critical("request_user:" + str(request.user) + ', form:' + str(form))
     return render(request, 'hod_template/add_course_template.html', context)
 
 
@@ -455,7 +502,7 @@ def add_subject(request):
                 messages.error(request, "Could Not Add " + str(e))
         else:
             messages.error(request, "Fill Form Properly")
-
+    logger.critical("request_user:" + str(request.user) + ', form:' + str(form))
     return render(request, 'hod_template/add_subject_template.html', context)
 
 
@@ -515,6 +562,7 @@ def stu_exam_num_generate(request):
             #     }
         else:
             messages.error(request, "此表单无效！")
+    logger.critical("request_user:" + str(request.user) + ', form:' + str(form))
     return render(request, "hod_template/stu_exam_number.html", context)
 
 
@@ -524,11 +572,13 @@ def manage_stu_exam_num(request):
         'page_title': '学生准考证号管理',
         'examNum': examNum
     }
+    logger.critical("request_user:" + str(request.user))
     return render(request, 'hod_template/manage_stu_exam_num.html', context)
 
 
 def delete_en(request, *args, **kwargs):
     de_en = get_object_or_404(StuExamNumber, id=int(kwargs['id']))
+    logger.critical("request_user:" + str(request.user) + ', de_en:' + str(de_en))
     try:
         de_en.delete()
         messages.success(request, "删除成功！")
@@ -543,6 +593,7 @@ def add_award(request):
         'form': form,
         'page_title': '添加奖项'
     }
+    logger.critical("request_user:" + str(request.user) + ', form:' + str(form))
     if request.method == 'POST':
         if form.is_valid():
             winner = form.cleaned_data.get('winner')
@@ -571,11 +622,13 @@ def manage_award(request):
         'page_title': '管理奖项',
         'awards': awards
     }
+    logger.critical("request_user:" + str(request.user))
     return render(request, 'hod_template/manage_award.html', context)
 
 
 def delete_award(request, *args, **kwargs):
     de_award = get_object_or_404(Award, id=int(kwargs['id']))
+    logger.critical("request_user:" + str(request.user) + ', de_award:' + str(de_award))
     try:
         de_award.delete()
         messages.success(request, "删除成功！")
@@ -590,6 +643,7 @@ def manage_staff(request):
         'allStaff': allStaff,
         'page_title': 'Manage Staff'
     }
+    logger.critical("request_user:" + str(request.user))
     return render(request, "hod_template/manage_staff.html", context)
 
 
@@ -600,6 +654,7 @@ def manage_student(request):
         'students': students,
         'page_title': 'Manage Students'
     }
+    logger.critical("request_user:" + str(request.user))
     return render(request, "hod_template/manage_student.html", context)
 
 
@@ -609,6 +664,7 @@ def manage_course(request):
         'courses': courses,
         'page_title': 'Manage Courses'
     }
+    logger.critical("request_user:" + str(request.user))
     return render(request, "hod_template/manage_course.html", context)
 
 
@@ -618,6 +674,7 @@ def manage_subject(request):
         'subjects': subjects,
         'page_title': 'Manage Subjects'
     }
+    logger.critical("request_user:" + str(request.user))
     return render(request, "hod_template/manage_subject.html", context)
 
 
@@ -629,6 +686,7 @@ def edit_staff(request, staff_id):
         'staff_id': staff_id,
         'page_title': 'Edit Staff'
     }
+    logger.critical("request_user:" + str(request.user) + ', form:' + str(form))
     if request.method == 'POST':
         if form.is_valid():
             first_name = form.cleaned_data.get('first_name')
@@ -673,6 +731,7 @@ def edit_staff(request, staff_id):
 def edit_student(request, student_id):
     student = get_object_or_404(Student, id=student_id)
     form = StudentForm(request.POST or None, instance=student)
+    logger.critical("request_user:" + str(request.user) + ', form:' + str(form))
     context = {
         'form': form,
         'student_id': student_id,
@@ -722,6 +781,7 @@ def edit_student(request, student_id):
 def edit_course(request, course_id):
     instance = get_object_or_404(Course, id=course_id)
     form = CourseForm(request.POST or None, instance=instance)
+    logger.critical("request_user:" + str(request.user) + ', form:' + str(form))
     context = {
         'form': form,
         'course_id': course_id,
@@ -751,6 +811,7 @@ def edit_subject(request, subject_id):
         'subject_id': subject_id,
         'page_title': 'Edit Subject'
     }
+    logger.critical("request_user:" + str(request.user) + ', form:' + str(form))
     if request.method == 'POST':
         if form.is_valid():
             name = form.cleaned_data.get('name')
@@ -774,6 +835,7 @@ def edit_subject(request, subject_id):
 def add_session(request):
     form = SessionForm(request.POST or None)
     context = {'form': form, 'page_title': 'Add Session'}
+    logger.critical("request_user:" + str(request.user) + ', form:' + str(form))
     if request.method == 'POST':
         if form.is_valid():
             try:
@@ -790,12 +852,14 @@ def add_session(request):
 def manage_session(request):
     sessions = Session.objects.all()
     context = {'sessions': sessions, 'page_title': 'Manage Sessions'}
+    logger.critical("request_user:" + str(request.user))
     return render(request, "hod_template/manage_session.html", context)
 
 
 def edit_session(request, session_id):
     instance = get_object_or_404(Session, id=session_id)
     form = SessionForm(request.POST or None, instance=instance)
+    logger.critical("request_user:" + str(request.user) + ', form:' + str(form))
     context = {'form': form, 'session_id': session_id,
                'page_title': 'Edit Session'}
     if request.method == 'POST':
@@ -836,6 +900,7 @@ def student_feedback_message(request):
             'feedbacks': feedbacks,
             'page_title': 'Student Feedback Messages'
         }
+        logger.critical("request_user:" + str(request.user))
         return render(request, 'hod_template/student_feedback_template.html', context)
     else:
         feedback_id = request.POST.get('id')
@@ -851,6 +916,7 @@ def student_feedback_message(request):
 
 @csrf_exempt
 def staff_feedback_message(request):
+    logger.critical("request_user:" + str(request.user))
     if request.method != 'POST':
         feedbacks = FeedbackStaff.objects.all()
         context = {
@@ -872,6 +938,7 @@ def staff_feedback_message(request):
 
 @csrf_exempt
 def view_staff_leave(request):
+    logger.critical("request_user:" + str(request.user))
     if request.method != 'POST':
         allLeave = LeaveReportStaff.objects.all()
         context = {
@@ -897,6 +964,7 @@ def view_staff_leave(request):
 
 @csrf_exempt
 def view_student_leave(request):
+    logger.critical("request_user:" + str(request.user))
     if request.method != 'POST':
         allLeave = LeaveReportStudent.objects.all()
         context = {
@@ -937,6 +1005,7 @@ def get_admin_attendance(request):
     subject_id = request.POST.get('subject')
     session_id = request.POST.get('session')
     attendance_date_id = request.POST.get('attendance_date_id')
+    logger.critical("request_user:" + str(request.user))
     try:
         subject = get_object_or_404(Subject, id=subject_id)
         session = get_object_or_404(Session, id=session_id)
@@ -957,12 +1026,20 @@ def get_admin_attendance(request):
 
 
 def admin_view_profile(request):
-    admin = get_object_or_404(Admin, admin=request.user)
+    # admin = get(Admin, admin=request.user)
+    try:
+        admin = Admin.objects.get(admin=request.user)
+    except:
+        context = {
+                   'page_title': '管理员已禁用此模块'
+                   }
+        return render(request, "hod_template/admin_view_profile.html", context)
     form = AdminForm(request.POST or None, request.FILES or None,
                      instance=admin)
     context = {'form': form,
                'page_title': 'View/Edit Profile'
                }
+    logger.critical("request_user:" + str(request.user))
     if request.method == 'POST':
         try:
             if form.is_valid():
@@ -993,6 +1070,7 @@ def admin_view_profile(request):
 
 def admin_notify_staff(request):
     staff = CustomUser.objects.filter(user_type=2)
+    logger.critical("request_user:" + str(request.user))
     context = {
         'page_title': "Send Notifications To Staff",
         'allStaff': staff
@@ -1002,6 +1080,7 @@ def admin_notify_staff(request):
 
 def admin_notify_student(request):
     student = CustomUser.objects.filter(user_type=3)
+    logger.critical("request_user:" + str(request.user))
     context = {
         'page_title': "Send Notifications To Students",
         'students': student
@@ -1011,6 +1090,7 @@ def admin_notify_student(request):
 
 @csrf_exempt
 def send_student_notification(request):
+    logger.critical("request_user:" + str(request.user))
     id = request.POST.get('id')
     message = request.POST.get('message')
     student = get_object_or_404(Student, admin_id=id)
@@ -1038,6 +1118,7 @@ def send_student_notification(request):
 
 @csrf_exempt
 def send_staff_notification(request):
+    logger.critical("request_user:" + str(request.user))
     id = request.POST.get('id')
     message = request.POST.get('message')
     staff = get_object_or_404(Staff, admin_id=id)
