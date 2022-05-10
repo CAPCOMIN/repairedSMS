@@ -483,3 +483,130 @@ main_app.models.Admin.DoesNotExist: Admin matching query does not exist.
 2022-04-09 21:08:41,199-[admin_notify_student:1084]-CRITICAL-request_user:GuestAdmin
 2022-04-09 21:08:46,675-[admin_notify_student:1084]-CRITICAL-request_user:GuestAdmin
 2022-04-09 21:08:54,007-[admin_notify_student:1084]-CRITICAL-request_user:GuestAdmin
+2022-05-10 17:19:39,608-[log_response:224]-WARNING-Not Found: /favicon.ico
+2022-05-10 17:19:39,609-[log_message:157]-WARNING-"GET /favicon.ico HTTP/1.1" 404 179
+2022-05-10 18:04:22,010-[log_response:224]-WARNING-Not Found: /favicon.ico
+2022-05-10 18:04:22,012-[log_message:157]-WARNING-"GET /favicon.ico HTTP/1.1" 404 179
+2022-05-10 22:34:32,468-[admin_home:86]-CRITICAL-request_user:GuestAdmin
+2022-05-10 22:34:41,040-[manage_student:657]-CRITICAL-request_user:GuestAdmin
+2022-05-10 22:34:44,030-[manage_staff:646]-CRITICAL-request_user:GuestAdmin
+2022-05-10 22:35:29,985-[admin_home:86]-CRITICAL-request_user:zhangxiyuan
+2022-05-10 22:35:34,228-[manage_staff:646]-CRITICAL-request_user:zhangxiyuan
+2022-05-10 22:35:38,842-[edit_staff:689]-CRITICAL-request_user:zhangxiyuan, form:<tr><th><label for="id_first_name">First name:</label></th><td><input type="text" name="first_name" value="文斌" class="form-control" required id="id_first_name"></td></tr>
+<tr><th><label for="id_last_name">Last name:</label></th><td><input type="text" name="last_name" value="赵" class="form-control" required id="id_last_name"></td></tr>
+<tr><th><label for="id_email">Email:</label></th><td><input type="email" name="email" value="gwb@zxy.link" class="form-control" required id="id_email"></td></tr>
+<tr><th><label for="id_gender">Gender:</label></th><td><select name="gender" class="form-control" id="id_gender">
+  <option value="M" selected>Male</option>
+
+  <option value="F">Female</option>
+
+</select></td></tr>
+<tr><th><label for="id_password">Password:</label></th><td><input type="password" name="password" class="form-control" placeholder="Fill this only if you wish to update password" id="id_password"></td></tr>
+<tr><th><label for="id_profile_pic">Profile pic:</label></th><td><input type="file" name="profile_pic" accept="image/*" class="form-control" id="id_profile_pic"></td></tr>
+<tr><th><label for="id_address">Address:</label></th><td><textarea name="address" cols="40" rows="10" class="form-control" required id="id_address">
+CUMT-CS</textarea></td></tr>
+<tr><th><label for="id_course">Course:</label></th><td><select name="course" class="form-control" required id="id_course">
+  <option value="">---------</option>
+
+  <option value="1" selected>算法设计与分析</option>
+
+  <option value="2">数据结构</option>
+
+  <option value="3">计算机网络</option>
+
+  <option value="4">网络安全</option>
+
+  <option value="5">高等数学</option>
+
+  <option value="6">大学英语A1</option>
+
+  <option value="7">计算机组成原理</option>
+
+  <option value="8">操作系统安全</option>
+
+  <option value="9">微机原理与接口</option>
+
+  <option value="10">Java语言与网络编程</option>
+
+  <option value="11">数据库原理与应用</option>
+
+</select></td></tr>
+2022-05-10 22:35:57,257-[edit_staff:689]-CRITICAL-request_user:zhangxiyuan, form:<tr><th><label for="id_first_name">First name:</label></th><td><input type="text" name="first_name" value="文斌" class="form-control" required id="id_first_name"></td></tr>
+<tr><th><label for="id_last_name">Last name:</label></th><td><input type="text" name="last_name" value="郭" class="form-control" required id="id_last_name"></td></tr>
+<tr><th><label for="id_email">Email:</label></th><td><input type="email" name="email" value="gwb@zxy.link" class="form-control" required id="id_email"></td></tr>
+<tr><th><label for="id_gender">Gender:</label></th><td><select name="gender" class="form-control" id="id_gender">
+  <option value="M" selected>Male</option>
+
+  <option value="F">Female</option>
+
+</select></td></tr>
+<tr><th><label for="id_password">Password:</label></th><td><input type="password" name="password" class="form-control" placeholder="Fill this only if you wish to update password" id="id_password"></td></tr>
+<tr><th><label for="id_profile_pic">Profile pic:</label></th><td><input type="file" name="profile_pic" accept="image/*" class="form-control" id="id_profile_pic"></td></tr>
+<tr><th><label for="id_address">Address:</label></th><td><textarea name="address" cols="40" rows="10" class="form-control" required id="id_address">
+CUMT-CS</textarea></td></tr>
+<tr><th><label for="id_course">Course:</label></th><td><select name="course" class="form-control" required id="id_course">
+  <option value="">---------</option>
+
+  <option value="1" selected>算法设计与分析</option>
+
+  <option value="2">数据结构</option>
+
+  <option value="3">计算机网络</option>
+
+  <option value="4">网络安全</option>
+
+  <option value="5">高等数学</option>
+
+  <option value="6">大学英语A1</option>
+
+  <option value="7">计算机组成原理</option>
+
+  <option value="8">操作系统安全</option>
+
+  <option value="9">微机原理与接口</option>
+
+  <option value="10">Java语言与网络编程</option>
+
+  <option value="11">数据库原理与应用</option>
+
+</select></td></tr>
+2022-05-10 22:35:57,432-[edit_staff:689]-CRITICAL-request_user:zhangxiyuan, form:<tr><th><label for="id_first_name">First name:</label></th><td><input type="text" name="first_name" value="文斌" class="form-control" required id="id_first_name"></td></tr>
+<tr><th><label for="id_last_name">Last name:</label></th><td><input type="text" name="last_name" value="郭" class="form-control" required id="id_last_name"></td></tr>
+<tr><th><label for="id_email">Email:</label></th><td><input type="email" name="email" value="gwb@zxy.link" class="form-control" required id="id_email"></td></tr>
+<tr><th><label for="id_gender">Gender:</label></th><td><select name="gender" class="form-control" id="id_gender">
+  <option value="M" selected>Male</option>
+
+  <option value="F">Female</option>
+
+</select></td></tr>
+<tr><th><label for="id_password">Password:</label></th><td><input type="password" name="password" class="form-control" placeholder="Fill this only if you wish to update password" id="id_password"></td></tr>
+<tr><th><label for="id_profile_pic">Profile pic:</label></th><td><input type="file" name="profile_pic" accept="image/*" class="form-control" id="id_profile_pic"></td></tr>
+<tr><th><label for="id_address">Address:</label></th><td><textarea name="address" cols="40" rows="10" class="form-control" required id="id_address">
+CUMT-CS</textarea></td></tr>
+<tr><th><label for="id_course">Course:</label></th><td><select name="course" class="form-control" required id="id_course">
+  <option value="">---------</option>
+
+  <option value="1" selected>算法设计与分析</option>
+
+  <option value="2">数据结构</option>
+
+  <option value="3">计算机网络</option>
+
+  <option value="4">网络安全</option>
+
+  <option value="5">高等数学</option>
+
+  <option value="6">大学英语A1</option>
+
+  <option value="7">计算机组成原理</option>
+
+  <option value="8">操作系统安全</option>
+
+  <option value="9">微机原理与接口</option>
+
+  <option value="10">Java语言与网络编程</option>
+
+  <option value="11">数据库原理与应用</option>
+
+</select></td></tr>
+2022-05-10 22:36:34,437-[manage_student:657]-CRITICAL-request_user:zhangxiyuan
